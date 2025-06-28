@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>YouTube Channel Info - Improved</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -54,11 +56,23 @@
       transition: border-color 0.3s ease;
     }
 
-    .card input[type="text"]:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 8px #667eea88;
-    }
+    .card input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.card input[type="password"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 8px #667eea88;
+}
+
+    
 
     .card button {
       width: 100%;
@@ -78,6 +92,7 @@
     }
 
     #main-container {
+      
       background: #1e1e2f;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       border-radius: 25px;
@@ -136,7 +151,13 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+canvas#growth-chart {
+      max-width: 100%;
+      margin-top: 30px;
+      background: #2c2c48;
+      border-radius: 20px;
+      padding: 15px;
+    }
     #video-link {
       display: block;
       border-radius: 15px;
@@ -164,6 +185,7 @@
     }
 
     .video-script {
+    
       font-size: 18px;
       line-height: 1.5;
       max-height: 280px;
@@ -174,7 +196,8 @@
       color: #ccc;
       margin-bottom: 20px;
       white-space: pre-line;
-      word-wrap: break-word;
+      word-wrap: break-word; 
+      
     }
 
     .badges {
@@ -196,16 +219,28 @@
     }
 
     .hashtags {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #2c2c48;
-      padding: 10px 15px;
-      border-radius: 15px;
-      color: #a0b0ff;
-      font-size: 14px;
-      word-break: break-word;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #2c2c48;
+  padding: 15px;
+  border-radius: 15px;
+  color: #a0b0ff;
+  font-size: 14px;
+}
+
+.hashtag-text {
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+.hashtag-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 
     .copy-btn {
       background: #5566ff;
@@ -220,6 +255,7 @@
       user-select: none;
       margin-left: 15px;
       flex-shrink: 0;
+      float: right;
     }
 
     .copy-btn:hover {
@@ -266,11 +302,16 @@
 
   <!-- Welcome Screen -->
   <div class="card" id="welcome-screen">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" />
-    <h1>ENTER CHANNEL NAME</h1>
-    <input type="text" id="channel-name" placeholder="enter channel name" />
-    <button onclick="loadChannel()">Continue ➜</button>
-  </div>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" />
+  <h1>ENTER CHANNEL NAME</h1>
+  <input type="text" id="channel-name" placeholder="Enter channel name" />
+
+  <!-- NEW: Password Input -->
+  <input type="password" id="channel-password" placeholder="Enter password" style="margin-top: 10px;" />
+
+  <button onclick="loadChannel()">Continue ➜</button>
+</div>
+
 
   <!-- Main content -->
   <div class="container" id="main-container">
@@ -279,6 +320,7 @@
       <label for="video-select">वीडियो चुनें:</label>
       <select id="video-select" onchange="showVideoDetails()"></select>
     </div>
+    
 
     <div id="loading-spinner">
       <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." width="60" />
@@ -290,81 +332,180 @@
       </a>
       <div class="video-title" id="video-title"></div>
       <div class="video-script" id="video-script"></div>
+      <button class="copy-btn" id="copy-script-btn" onclick="copyScript()" style="display:none;">📋 Copy Script</button>
+
       <div class="badges">
         <div class="badge" id="video-views"></div>
         <div class="badge" id="video-likes"></div>
         <div class="badge" id="video-watch"></div>
+        <div class="badge" id="video-upload-time"></div>
+
       </div>
       <div class="hashtags">
-        <span id="video-hashtags"></span>
-        <button class="copy-btn" onclick="copyHashtags()">📋 Copy Hashtags</button>
-        <button class="copy-btn" onclick="shareWhatsApp()">📱 Share WhatsApp</button>
-        <button class="copy-btn" onclick="shareTwitter()">🐦 Share Twitter</button>
-      </div>
-    </div>
+  <div class="hashtag-text" id="video-hashtags"></div>
+  <div class="hashtag-actions">
+    <button class="copy-btn" onclick="copyHashtags()">📋 Copy Hashtags</button>
+    <button class="copy-btn" onclick="shareWhatsApp()">📱 Share WhatsApp</button>
+    <button class="copy-btn" onclick="shareTwitter()">🐦 Share Twitter</button>
+  </div>
+</div>
+
   </div>
 
   <script>
     const apiKey = "AIzaSyAa5mJThKeXqIbcB_pBIE4jOlTw04Ej2fU";
 
-    const videos = {
-      "Inspire4Ever": {
-        video1: {
-          title: "Panda गया gym 🐼💪",
-          videoId: "p8J8LPcr1P0",
-          date: "2023-06-28",
-          script: `ये है जंगल का सबसे ज़िद्दी पांडा, जिसने ठान लिया है कि अब से रोज़ जिम जाएगा, लेकिन पहले ही दिन पुसअप लगाने गया और अपने ही वज़न से दब गया, फिर बोला चलो दौड़ लगाते हैं, दो क़दम बाद ही ऐसा हाँफने लगा जैसे पूरी लंबी दौड़ जीत के आया हो, और अब फिर से वही पुराना पोज़ लेके लेटा है, लेकिन दिल में अभी भी कसरत वाला जोश ज़िंदा है, पर कोई बात नहीं, सबको पता है गलती तुम्हारी नहीं, बस तुम्हारा शरीर ही साथ नहीं दे रहा।`,
-          hashtags: "#PandaFunny #WorkoutComedy #GymFails #ZiddiPanda #FunnyShorts #HindiComedy #DesiShorts #ComedyReels #ShortsVideo #FunnyAnimals #FitnessFail #ViralShorts #DesiGymLife #PandaVsGym #MotivationGoneWrong"
-        },
-        video2: {
-          title: "पांडा इतना आलसी क्यों होता है? 😂",
-          videoId: "UEJo-tmfjSA",
-          date: "2025-06-26",
-          script: `यह है जंगल का सबसे आलसी जीव, पांडा. क्योंकि ये सुबह से यही बैठा सिर्फ बाँस खाए जा रहा है ओर खाते-खाते थक जाए तो पांडा बाबू वहीं लेटकर खाने लग जाते है लेकिन खाएंगे जरूर ओर तो ओर इनके सोने की जगह भी फिक्स नहीं है क्योंकि. मतलब पांडा खाना खाते-खाते ही वही लुड़क कर 12 घंटे के लिए सो जाता है. अरे इसने करवट बदली, मतलब आज एक्सरसाइज़ भी हो रही है तो अगर तुम्हारा भी मन करता है ऐसा ही आलसी बनने का तो आज ही ले पांडा से ट्रेनिंग`,
-          hashtags: "#FunnyPanda #LazyPanda #PandaVibes #AnimalComedy #CuteAnimals #FunnyShorts #DesiComedy #BhookhaPanda #LOLShorts #SnoozeTime #ViralShorts #YouTubeShorts #ExplorePage"
-        },
-        video3: {
-          title: "भेड़िए का माँ-बाप से प्यार ❤",
-          videoId: "N3Jq_vkYYe8",
-          date: "2025-06-22",
-          script: `इस video को देखने के बाद आप भी कहोगे. सबसे पहले आपको सर्कस में आपको शेर चीता हाथी सब नाचते हुए दिख जाएंगे लेकिन भेड़िया नहीं क्योंकि यूजुअली वो पालतू नहीं बनता. नेक्स्ट भेड़िया हमेशा एकदम फ्रेश ताजा गोश्त खाता है न की पुराना खराब मीट और सबसे अच्छी बात भेड़िया अपने मां-बाप को छोड़कर नहीं भागता बल्कि उनकी देखभाल करता है और इज्जत भी करता है ओर बुढ़ापे में जब वो शिकार नहीं कर पाते तो खुद उन्हे खाना लाकर खिलाता है और अपने भाई-बहनों को अच्छे से पहचानता है ओर उनसे शादी भी नहीं करता बाकी जानवरों की तरह. अक्सर भेड़िया एक से ही शादी करता है और जिंदगी भर उसी के साथ रहता है`,
-          hashtags: "#BhediyaFacts #WolfLoyalty #AnimalEmotions #JungleKiSachaai #UntoldAnimalStories #RespectNature #WildTruths #WolfVsOthers #JungleKaNyay #NatureKnowsBest #BhediyaKaSach #WolfIsDifferent #JanwarBhiSamajhdar #JungleKiZindagi #EmotionalAnimals #RespectParentsLikeWolves #OnePartnerLife #RealLoveStoryOfWolf #BhediyaKiSachchai #JungleKeRules #WolfKaIzzatwalaPyar #viral #trending #facts #animals #shorts"
-        }
-      }
-    };
+   
+      const videos = {
+  "Inspire4Ever": {
+    video1: {
+      title: "Panda गया gym 🐼💪",
+      videoId: "p8J8LPcr1P0",
+      date: "2023-06-28",
+      script:`ये है जंगल का सबसे ज़िद्दी पांडा, जिसने ठान लिया है कि अब से रोज़ जिम जाएगा,
+लेकिन पहले ही दिन पुसअप लगाने गया और अपने ही वज़न से दब गया।
+फिर बोला चलो दौड़ लगाते हैं, दो क़दम बाद ही ऐसा हाँफने लगा जैसे पूरी लंबी दौड़ जीत के आया हो।
+और अब फिर से वही पुराना पोज़ लेके लेटा है,
+लेकिन दिल में अभी भी कसरत वाला जोश ज़िंदा है।
 
-    function loadChannel() {
-      const name = document.getElementById('channel-name').value.trim();
-      if (!name) {
-        alert("कृपया चैनल नाम दर्ज करें");
-        return;
-      }
-      if (!videos[name]) {
-        alert("चैनल नहीं मिला, कृपया सही नाम डालें");
-        return;
-      }
-      document.getElementById('welcome-screen').style.display = 'none';
-      document.getElementById('main-container').style.display = 'flex';
+पर कोई बात नहीं, सबको पता है गलती तुम्हारी नहीं,
+बस तुम्हारा शरीर ही साथ नहीं दे रहा।`,
+      hashtags: "#PandaFunny #WorkoutComedy #GymFails #ZiddiPanda #FunnyShorts #HindiComedy #DesiShorts #ComedyReels #ShortsVideo #FunnyAnimals #FitnessFail #ViralShorts #DesiGymLife #PandaVsGym #MotivationGoneWrong"
+    },
 
-      loadSubscriberCount(name);
+    video2: {
+      title: "पांडा इतना आलसी क्यों होता है? 😂",
+      videoId: "UEJo-tmfjSA",
+      date: "2025-06-26",
+      script: `यह है जंगल का सबसे आलसी जीव, पांडा।
+क्योंकि ये सुबह से यही बैठा सिर्फ बाँस खाए जा रहा है,
+और खाते-खाते थक जाए तो पांडा बाबू वहीं लेटकर खाने लग जाते हैं।
 
-      const select = document.getElementById('video-select');
-      select.innerHTML = "";
-      const data = videos[name];
-      for (const key in data) {
-        const option = document.createElement('option');
-        option.value = key;
-        option.textContent = data[key].title;
-        select.appendChild(option);
-      }
-      document.getElementById('video-select-container').style.display = 'block';
+लेकिन खाएंगे जरूर!
 
-      showVideoDetails();
+और तो और, इनके सोने की जगह भी फिक्स नहीं है क्योंकि...
+मतलब पांडा खाना खाते-खाते ही वहीं लुड़क कर 12 घंटे के लिए सो जाता है।
+
+अरे, इसने करवट बदली!
+मतलब आज एक्सरसाइज़ भी हो रही है।
+
+तो अगर तुम्हारा भी मन करता है ऐसा ही आलसी बनने का,
+तो आज ही ले पांडा से ट्रेनिंग! 🐼`,
+      hashtags: "#FunnyPanda #LazyPanda #PandaVibes #AnimalComedy #CuteAnimals #FunnyShorts #DesiComedy #BhookhaPanda #LOLShorts #SnoozeTime #ViralShorts #YouTubeShorts #ExplorePage"
+    },
+
+    video3: {
+      title: "भेड़िए का माँ-बाप से प्यार ❤",
+      videoId: "N3Jq_vkYYe8",
+      date: "2025-06-22",
+      script: `इस video को देखने के बाद आप भी कहोगे...
+सबसे पहले आपको सर्कस में शेर, चीता, हाथी सब नाचते दिख जाएंगे — लेकिन भेड़िया नहीं,
+क्योंकि वो पालतू नहीं बनता।
+
+भेड़िया हमेशा ताजा गोश्त खाता है — न की पुराना।
+और सबसे ज़बरदस्त बात — वो अपने माँ-बाप को छोड़कर नहीं भागता।
+बुढ़ापे में जब वो शिकार नहीं कर पाते,
+तो वही भेड़िया खाना लाकर उन्हें खिलाता है।
+
+भेड़िया अपने भाई-बहनों को पहचानता है और उनसे शादी नहीं करता,
+बाकी जानवरों की तरह।
+
+वो एक ही पार्टनर से शादी करता है और उम्र भर उसी के साथ रहता है।
+Real love, loyalty और respect सिर्फ भेड़िया निभाता है।`,
+      hashtags: "#BhediyaFacts #WolfLoyalty #AnimalEmotions #JungleKiSachaai #UntoldAnimalStories #RespectNature #WildTruths #WolfVsOthers #JungleKaNyay #NatureKnowsBest #BhediyaKaSach #WolfIsDifferent #JanwarBhiSamajhdar #JungleKiZindagi #EmotionalAnimals #RespectParentsLikeWolves #OnePartnerLife #RealLoveStoryOfWolf #BhediyaKiSachchai #JungleKeRules #WolfKaIzzatwalaPyar #viral #trending #facts #animals #shorts"
+    },
+
+    video4: {
+      title: "ड्रामेबाज़ पांडा 😅",
+      videoId: "AZlN6-clOyo",
+      date: "2025-06-18",
+      script: `इस पांडा को ध्यान से देखो — जब ये बैंबू तोड़ता है,
+तो ऐसे expressions देता है जैसे इसे बहुत ताकत लग रही हो।
+
+जबकि बाकी पांडा तो आसानी से बैंबू तोड़ लेते हैं।
+दरअसल जब ये पांडा मंगोलिया में पैदा हुआ था,
+तो इसकी माँ ने इसे छोड़ दिया था।
+
+इसे इंसानों ने पाला और इंसान जब बैंबू तोड़ते थे,
+तो expressions देते थे — इससे इस मासूम को लगा कि यही तरीका है बैंबू तोड़ने का।
+
+तभी से जब भी ये बैंबू तोड़ता है,
+तो ड्रामेबाज़ी शुरू कर देता है!`,
+      hashtags: "#FunnyPanda #AnimalExpressions #RelatableAF #PandaDrama #OveractingPanda #CuteButFunny #PandaMeme #BambooStruggle #DailyDoseOfFunny #RelatableAnimals #PandaVibes #ExpressionGameStrong #BambooTime #AnimalActing #FunnyFaceChallenge #ActingPanda #LOLAnimals #CuteButCringe #PandaMood #OscarGoesToPanda #AnimalComedy #FunnyShorts"
+    },
+
+    video5: {
+      title: "Real Spiderman 😮",
+      videoId:"ANBCmFjpZ_s",
+      date: "2025-06-28",
+      script: "ये है spiderman लेकिन एक सेकंड ये मैन तो है ही नहीं । लेकिन जो भी हो ये उछल कूद के मामले में स्पाइडरमैन से कम नहीं है दरअसल इसे कहते है वाइट चिकड गिबन जो की बंदर की परजाति नहीं है बल्कि एक अलग परजाति है । ये साउथ ईस्ट एशिया के कुछ हिस्सो में पाया जाता है । ये प्यारा जानवर गाना गाने के लिए बी जाना जाता है । और ये एक बहुत ही वफादार परजाति है क्योंकि ये जिंदगी भर एक ही साथी के साथ रहते है ओर हर सुबह दोनों मिलकर गाना गाते है इनका डीएनए इंसानों से नाइटी थ्री पर्सेन्ट मैच करता है इस तरह जेनेटिकली इनका इंसानों से करीबी रिश्ता है लेकिन जंगलों के काटे जाने से इनकी संख्या कम होती जा रही है",
+      hashtags: "#WhiteCheekedGibbon #GibbonLife #WildlifeWonder #MonkeyOrNot #NatureLovers #SoutheastAsiaWildlife #JungleVoices #SingingApes #LoyalAnimals #EndangeredSpecies #SaveTheGibbons #AnimalFacts #CloseToHumans #GeneticCousins #WildlifeConservation",
     }
+  }
+};
+
+
+  
+    function loadChannel() {
+  const name = document.getElementById('channel-name').value.trim();
+  const pass = document.getElementById('channel-password').value.trim();
+
+  if (!name || !pass) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Oops!',
+      text: 'PLEASE ENTER YOUR CHANNEL NAME AND PASSWORD',
+      confirmButtonText: 'OK',
+      background: '#1e1e2f',
+      color: '#f0f0f5'
+    });
+    return;
+  }
+
+  if (pass !== "deepak95") {
+    Swal.fire({
+      icon: 'error',
+      title: 'WRONG PASSWORD!',
+      text: 'PLEASE ENTER RIGHT PASSWORD',
+      confirmButtonText: 'OK',
+      background: '#1e1e2f',
+      color: '#f0f0f5'
+    });
+    return;
+  }
+
+  document.getElementById('welcome-screen').style.display = 'none';
+  document.getElementById('main-container').style.display = 'flex';
+
+  loadSubscriberCount(name);
+
+  const select = document.getElementById('video-select');
+  select.innerHTML = "";
+  const data = videos[name];
+  for (const key in data) {
+    const option = document.createElement('option');
+    option.value = key;
+    option.textContent = data[key].title;
+    select.appendChild(option);
+  }
+  document.getElementById('video-select-container').style.display = 'block';
+
+  showVideoDetails();
+}
+
+
+  showVideoDetails();
+
+
+    
 
     function showLoading() {
       document.getElementById('loading-spinner').style.display = 'block';
     }
+    function splitGraphemes(str) {
+  return [...str.normalize('NFC')];
+}
+
     function hideLoading() {
       document.getElementById('loading-spinner').style.display = 'none';
     }
@@ -382,14 +523,22 @@
       document.getElementById('video-script').innerHTML = "";
 
       // Animate script typing
-      let i = 0;
-      function typeText() {
-        if (i < video.script.length) {
-          document.getElementById('video-script').innerHTML += video.script.charAt(i);
-          i++;
-          setTimeout(typeText, 25);
-        }
-      }
+let chars = splitGraphemes(video.script);
+let i = 0;
+
+function typeText() {
+  if (i < chars.length) {
+    document.getElementById('video-script').innerHTML += chars[i];
+    i++;
+    setTimeout(typeText, 25);
+  } else {
+    document.getElementById('copy-script-btn').style.display = 'inline-block';
+  }
+}
+   
+
+
+
 
       // Set video basic info immediately
       document.getElementById('video-title').innerText = video.title;
@@ -402,14 +551,20 @@
       typeText();
 
       // Fetch statistics from YouTube API
-      fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${apiKey}`)
+      fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=${id}&key=${apiKey}`)
+
         .then(res => res.json())
         .then(data => {
           if (data.items && data.items.length > 0) {
             const stats = data.items[0].statistics;
             document.getElementById('video-views').innerText = `👁 ${formatNum(stats.viewCount)} Views`;
             document.getElementById('video-likes').innerText = `❤️ ${formatNum(stats.likeCount)} Likes`;
-          } else {
+          const snippet = data.items[0].snippet;
+      const publishedAt = new Date(snippet.publishedAt);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+      const formattedTime = publishedAt.toLocaleString('en-US', options);
+      document.getElementById('video-upload-time').innerText = `🕒 Upload: ${formattedTime}`; 
+     } else {
             document.getElementById('video-views').innerText = "👁 Unknown Views";
             document.getElementById('video-likes').innerText = "❤️ Unknown Likes";
           }

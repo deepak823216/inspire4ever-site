@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Channel Info - Improved</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #f0f0f5;
+    }
+
+    .card {
+      background: white;
+      color: #333;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .card img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .card input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    .card input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 8px #667eea88;
+    }
+
+    .card button {
+      width: 100%;
+      padding: 12px;
+      background-color: #667eea;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+    }
+
+    .card button:hover {
+      background-color: #5a6fd8;
+    }
+
+    #main-container {
+      background: #1e1e2f;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      border-radius: 25px;
+      padding: 30px 40px;
+      margin: 40px 20px 60px;
+      max-width: 700px;
+      width: 100%;
+      color: #ddd;
+      display: none;
+      flex-direction: column;
+    }
+
+    #channel-subs {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #a0b0ff;
+    }
+
+    #video-select-container {
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: block;
+      color: #ccc;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: none;
+      background: #2c2c48;
+      color: #eee;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    select:hover, select:focus {
+      background: #3e3e68;
+      outline: none;
+    }
+
+    .video-details {
+      display: none;
+      animation: fadeIn 0.5s ease forwards;
+      margin-top: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #video-link {
+      display: block;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    #video-link:hover {
+      transform: scale(1.05);
+    }
+
+    .video-thumb {
+      width: 100%;
+      display: block;
+      border-radius: 15px;
+    }
+
+    .video-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #fefefe;
+    }
+
+    .video-script {
+      font-size: 18px;
+      line-height: 1.5;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 10px;
+      background: #2a2a45;
+      border-radius: 12px;
+      color: #ccc;
+      margin-bottom: 20px;
+      white-space: pre-line;
+      word-wrap: break-word;
+    }
+
+    .badges {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      background: #444768;
+      color: #cfcfff;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-size: 14px;
+      box-shadow: 0 0 6px #5566ee55;
+      user-select: none;
+    }
+
+    .hashtags {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c2c48;
+      padding: 10px 15px;
+      border-radius: 15px;
+      color: #a0b0ff;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      background: #5566ff;
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 6px 12px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      font-size: 13px;
+      user-select: none;
+      margin-left: 15px;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: #3344cc;
+    }
+
+    /* Scrollbar for script */
+    .video-script::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .video-script::-webkit-scrollbar-track {
+      background: #1e1e2f;
+      border-radius: 12px;
+    }
+
+    .video-script::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 12px;
+    }
+
+    /* Loading spinner */
+    #loading-spinner {
+      text-align: center;
+      margin: 20px 0;
+      display: none;
+    }
+
+    /* Responsive */
+    @media(max-width: 480px) {
+      .video-title {
+        font-size: 22px;
+      }
+      .video-script {
+        font-size: 16px;
+      }
+      #main-container {
+        padding: 20px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Welcome Screen -->
+  <div class="card" id="welcome-screen">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" />
+    <h1>ENTER CHANNEL NAME</h1>
+    <input type="text" id="channel-name" placeholder="enter channel name" />
+    <button onclick="loadChannel()">Continue ➜</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="container" id="main-container">
+    <div id="channel-subs"></div>
+    <div id="video-select-container" style="display: none;">
+      <label for="video-select">वीडियो चुनें:</label>
+      <select id="video-select" onchange="showVideoDetails()"></select>
+    </div>
+
+    <div id="loading-spinner">
+      <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." width="60" />
+    </div>
+
+    <div class="video-details" id="video-details">
+      <a id="video-link" href="#" target="_blank" rel="noopener noreferrer">
+        <img id="video-thumb" class="video-thumb" src="" alt="Thumbnail" />
+      </a>
+      <div class="video-title" id="video-title"></div>
+      <div class="video-script" id="video-script"></div>
+      <div class="badges">
+        <div class="badge" id="video-views"></div>
+        <div class="badge" id="video-likes"></div>
+        <div class="badge" id="video-watch"></div>
+      </div>
+      <div class="hashtags">
+        <span id="video-hashtags"></span>
+        <button class="copy-btn" onclick="copyHashtags()">📋 Copy Hashtags</button>
+        <button class="copy-btn" onclick="shareWhatsApp()">📱 Share WhatsApp</button>
+        <button class="copy-btn" onclick="shareTwitter()">🐦 Share Twitter</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = "AIzaSyAa5mJThKeXqIbcB_pBIE4jOlTw04Ej2fU";
+
+    const videos = {
+      "Inspire4Ever": {
+        video1: {
+          title: "Panda गया gym 🐼💪",
+          videoId: "p8J8LPcr1P0",
+          date: "2023-06-28",
+          script: `ये है जंगल का सबसे ज़िद्दी पांडा, जिसने ठान लिया है कि अब से रोज़ जिम जाएगा, लेकिन पहले ही दिन पुसअप लगाने गया और अपने ही वज़न से दब गया, फिर बोला चलो दौड़ लगाते हैं, दो क़दम बाद ही ऐसा हाँफने लगा जैसे पूरी लंबी दौड़ जीत के आया हो, और अब फिर से वही पुराना पोज़ लेके लेटा है, लेकिन दिल में अभी भी कसरत वाला जोश ज़िंदा है, पर कोई बात नहीं, सबको पता है गलती तुम्हारी नहीं, बस तुम्हारा शरीर ही साथ नहीं दे रहा।`,
+          hashtags: "#PandaFunny #WorkoutComedy #GymFails #ZiddiPanda #FunnyShorts #HindiComedy #DesiShorts #ComedyReels #ShortsVideo #FunnyAnimals #FitnessFail #ViralShorts #DesiGymLife #PandaVsGym #MotivationGoneWrong"
+        },
+        video2: {
+          title: "पांडा इतना आलसी क्यों होता है? 😂",
+          videoId: "UEJo-tmfjSA",
+          date: "2025-06-26",
+          script: `यह है जंगल का सबसे आलसी जीव, पांडा. क्योंकि ये सुबह से यही बैठा सिर्फ बाँस खाए जा रहा है ओर खाते-खाते थक जाए तो पांडा बाबू वहीं लेटकर खाने लग जाते है लेकिन खाएंगे जरूर ओर तो ओर इनके सोने की जगह भी फिक्स नहीं है क्योंकि. मतलब पांडा खाना खाते-खाते ही वही लुड़क कर 12 घंटे के लिए सो जाता है. अरे इसने करवट बदली, मतलब आज एक्सरसाइज़ भी हो रही है तो अगर तुम्हारा भी मन करता है ऐसा ही आलसी बनने का तो आज ही ले पांडा से ट्रेनिंग`,
+          hashtags: "#FunnyPanda #LazyPanda #PandaVibes #AnimalComedy #CuteAnimals #FunnyShorts #DesiComedy #BhookhaPanda #LOLShorts #SnoozeTime #ViralShorts #YouTubeShorts #ExplorePage"
+        },
+        video3: {
+          title: "भेड़िए का माँ-बाप से प्यार ❤",
+          videoId: "N3Jq_vkYYe8",
+          date: "2025-06-22",
+          script: `इस video को देखने के बाद आप भी कहोगे. सबसे पहले आपको सर्कस में आपको शेर चीता हाथी सब नाचते हुए दिख जाएंगे लेकिन भेड़िया नहीं क्योंकि यूजुअली वो पालतू नहीं बनता. नेक्स्ट भेड़िया हमेशा एकदम फ्रेश ताजा गोश्त खाता है न की पुराना खराब मीट और सबसे अच्छी बात भेड़िया अपने मां-बाप को छोड़कर नहीं भागता बल्कि उनकी देखभाल करता है और इज्जत भी करता है ओर बुढ़ापे में जब वो शिकार नहीं कर पाते तो खुद उन्हे खाना लाकर खिलाता है और अपने भाई-बहनों को अच्छे से पहचानता है ओर उनसे शादी भी नहीं करता बाकी जानवरों की तरह. अक्सर भेड़िया एक से ही शादी करता है और जिंदगी भर उसी के साथ रहता है`,
+          hashtags: "#BhediyaFacts #WolfLoyalty #AnimalEmotions #JungleKiSachaai #UntoldAnimalStories #RespectNature #WildTruths #WolfVsOthers #JungleKaNyay #NatureKnowsBest #BhediyaKaSach #WolfIsDifferent #JanwarBhiSamajhdar #JungleKiZindagi #EmotionalAnimals #RespectParentsLikeWolves #OnePartnerLife #RealLoveStoryOfWolf #BhediyaKiSachchai #JungleKeRules #WolfKaIzzatwalaPyar #viral #trending #facts #animals #shorts"
+        }
+      }
+    };
+
+    function loadChannel() {
+      const name = document.getElementById('channel-name').value.trim();
+      if (!name) {
+        alert("कृपया चैनल नाम दर्ज करें");
+        return;
+      }
+      if (!videos[name]) {
+        alert("चैनल नहीं मिला, कृपया सही नाम डालें");
+        return;
+      }
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('main-container').style.display = 'flex';
+
+      loadSubscriberCount(name);
+
+      const select = document.getElementById('video-select');
+      select.innerHTML = "";
+      const data = videos[name];
+      for (const key in data) {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = data[key].title;
+        select.appendChild(option);
+      }
+      document.getElementById('video-select-container').style.display = 'block';
+
+      showVideoDetails();
+    }
+
+    function showLoading() {
+      document.getElementById('loading-spinner').style.display = 'block';
+    }
+    function hideLoading() {
+      document.getElementById('loading-spinner').style.display = 'none';
+    }
+
+    function showVideoDetails() {
+      showLoading();
+
+      const name = document.getElementById('channel-name').value.trim();
+      const key = document.getElementById('video-select').value;
+      const video = videos[name][key];
+      const id = video.videoId;
+
+      document.getElementById('video-details').style.display = 'none';
+      document.getElementById('video-title').innerText = "";
+      document.getElementById('video-script').innerHTML = "";
+
+      // Animate script typing
+      let i = 0;
+      function typeText() {
+        if (i < video.script.length) {
+          document.getElementById('video-script').innerHTML += video.script.charAt(i);
+          i++;
+          setTimeout(typeText, 25);
+        }
+      }
+
+      // Set video basic info immediately
+      document.getElementById('video-title').innerText = video.title;
+      document.getElementById('video-link').href = `https://youtube.com/shorts/${id}`;
+      document.getElementById('video-thumb').src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+      document.getElementById('video-watch').innerText = `📅 ${video.date}`;
+      document.getElementById('video-hashtags').innerText = video.hashtags;
+
+      // Start typing animation
+      typeText();
+
+      // Fetch statistics from YouTube API
+      fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${id}&key=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.items && data.items.length > 0) {
+            const stats = data.items[0].statistics;
+            document.getElementById('video-views').innerText = `👁 ${formatNum(stats.viewCount)} Views`;
+            document.getElementById('video-likes').innerText = `❤️ ${formatNum(stats.likeCount)} Likes`;
+          } else {
+            document.getElementById('video-views').innerText = "👁 Unknown Views";
+            document.getElementById('video-likes').innerText = "❤️ Unknown Likes";
+          }
+          hideLoading();
+          document.getElementById('video-details').style.display = 'block';
+        })
+        .catch(() => {
+          document.getElementById('video-views').innerText = "👁 Unknown Views";
+          document.getElementById('video-likes').innerText = "❤️ Unknown Likes";
+          hideLoading();
+          document.getElementById('video-details').style.display = 'block';
+        });
+    }
+
+    function formatNum(n) {
+      n = Number(n);
+      if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+      if (n >= 1e3) return (n / 1e3).toFixed(1) + "K";
+      return n;
+    }
+
+    function copyHashtags() {
+      const hashtags = document.getElementById('video-hashtags').innerText;
+      navigator.clipboard.writeText(hashtags).then(() => {
+        alert("Hashtags copied!");
+      });
+    }
+
+    function shareWhatsApp() {
+      const hashtags = encodeURIComponent(document.getElementById('video-hashtags').innerText);
+      const url = encodeURIComponent(document.getElementById('video-link').href);
+      const message = `देखो ये वीडियो: ${url}\n\n${hashtags}`;
+      window.open(`https://wa.me/?text=${message}`, '_blank');
+    }
+
+    function shareTwitter() {
+      const hashtagsRaw = document.getElementById('video-hashtags').innerText;
+      // Remove '#' and commas for twitter hashtags param
+      const hashtags = encodeURIComponent(hashtagsRaw.replace(/#/g, '').replace(/\s+/g, '').replace(/,/g, ''));
+      const url = encodeURIComponent(document.getElementById('video-link').href);
+      const text = encodeURIComponent('ये वीडियो देखो!');
+      window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${hashtags}`, '_blank');
+    }
+
+    function loadSubscriberCount(channelName) {
+      // YouTube API for subscriber count requires channel ID or username.
+      // For demo, we use username = channelName if it matches "Inspire4Ever"
+      // Otherwise, you must use actual channel ID here.
+      let username = channelName;
+      // Replace with actual channel ID if needed:
+      const channelId = "UCDg6tuF9rLdSYvgVXXDO7LA"; // Inspire4Ever channel ID
+
+      fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.items && data.items.length > 0) {
+            const subs = data.items[0].statistics.subscriberCount;
+            document.getElementById('channel-subs').innerText = `Subscribers: ${formatNum(subs)}`;
+          } else {
+            document.getElementById('channel-subs').innerText = `Subscribers: Unknown`;
+          }
+        })
+        .catch(() => {
+          document.getElementById('channel-subs').innerText = `Subscribers: Unknown`;
+        });
+    }
+  </script>
+</body>
+</html>

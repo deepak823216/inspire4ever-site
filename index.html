@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+  <body>
+    
+   
+    
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>YouTube Channel Info - Improved</title>
@@ -11,11 +15,63 @@
     * {
       box-sizing: border-box;
     }
+    #welcome-screen img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 
+              inset 0 0 10px rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  transform: perspective(800px) rotateX(5deg) rotateY(-5deg) scale(1.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#welcome-screen h1 {
+  font-size: 30px;
+  background: linear-gradient(90deg, #ffaa00, #ff0066);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255, 204, 0, 0.8), 0 2px 4px rgba(0,0,0,0.3);
+
+}
+#welcome-screen input[type="text"],
+#welcome-screen input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 18px;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.1), 0 4px 12px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+#welcome-screen input:focus {
+  outline: none;
+  box-shadow: 0 0 12px #ff00ccaa;
+  border: 1px solid #ff00cc;
+}
+
+
+#welcome-screen input[type="text"]::placeholder,
+#welcome-screen input[type="password"]::placeholder {
+  color: #ddd;
+  font-style: italic;
+}
+
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'Noto Sans Devanagari', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2345dd 0%, #1f0e30 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -24,21 +80,32 @@
     }
 
     .card {
-      background: white;
-      color: #333;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 450px;
-      text-align: center;
-      margin-top: 80px;
-    }
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  margin-top: 80px;
+}
+
 
     .card img {
       width: 100px;
       margin-bottom: 20px;
     }
+    .back-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+  
 
     .card h1 {
       font-size: 26px;
@@ -78,7 +145,7 @@
       width: 100%;
       padding: 12px;
       background-color: #667eea;
-      color: white;
+      color: rgb(255, 255, 255);
       border: none;
       border-radius: 10px;
       font-size: 18px;
@@ -90,6 +157,7 @@
     .card button:hover {
       background-color: #5a6fd8;
     }
+    
 
     #main-container {
       
@@ -111,6 +179,7 @@
       margin-bottom: 15px;
       color: #a0b0ff;
     }
+    
 
     #video-select-container {
       margin-bottom: 25px;
@@ -123,6 +192,23 @@
       display: block;
       color: #ccc;
     }
+    input:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+button {
+  background: linear-gradient(90deg, #6e8efb, #a777e3);
+  border: none;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #a777e3;
+}
+
 
     select {
       width: 100%;
@@ -170,6 +256,27 @@ canvas#growth-chart {
     #video-link:hover {
       transform: scale(1.05);
     }
+    body {
+  margin: 0;
+  padding: 0;
+  height: 100;
+  background: url("background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.welcome-container {
+  background: rgba(0, 0, 0, 0.5); /* dark transparent layer */
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
 
     .video-thumb {
       width: 100%;
@@ -183,6 +290,7 @@ canvas#growth-chart {
       margin-bottom: 15px;
       color: #fefefe;
     }
+    
 
     .video-script {
     
@@ -234,6 +342,7 @@ canvas#growth-chart {
   line-height: 1.6;
 }
 
+
 .hashtag-actions {
   display: flex;
   gap: 10px;
@@ -276,6 +385,7 @@ canvas#growth-chart {
       background: #667eea;
       border-radius: 12px;
     }
+    
 
     /* Loading spinner */
     #loading-spinner {
@@ -302,7 +412,7 @@ canvas#growth-chart {
 
   <!-- Welcome Screen -->
   <div class="card" id="welcome-screen">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" />
+   <img src="inspire4ever_logo.jpg" class="circle-logo" />
   <h1>ENTER CHANNEL NAME</h1>
   <input type="text" id="channel-name" placeholder="Enter channel name" />
 
@@ -313,11 +423,12 @@ canvas#growth-chart {
 </div>
 
 
+
   <!-- Main content -->
   <div class="container" id="main-container">
     <div id="channel-subs"></div>
     <div id="video-select-container" style="display: none;">
-      <label for="video-select">वीडियो चुनें:</label>
+      <label for="video-select">SELECT VIDEO:</label>
       <select id="video-select" onchange="showVideoDetails()"></select>
     </div>
     
@@ -440,8 +551,44 @@ Real love, loyalty और respect सिर्फ भेड़िया नि�
       date: "2025-06-28",
       script: "ये है spiderman लेकिन एक सेकंड ये मैन तो है ही नहीं । लेकिन जो भी हो ये उछल कूद के मामले में स्पाइडरमैन से कम नहीं है दरअसल इसे कहते है वाइट चिकड गिबन जो की बंदर की परजाति नहीं है बल्कि एक अलग परजाति है । ये साउथ ईस्ट एशिया के कुछ हिस्सो में पाया जाता है । ये प्यारा जानवर गाना गाने के लिए बी जाना जाता है । और ये एक बहुत ही वफादार परजाति है क्योंकि ये जिंदगी भर एक ही साथी के साथ रहते है ओर हर सुबह दोनों मिलकर गाना गाते है इनका डीएनए इंसानों से नाइटी थ्री पर्सेन्ट मैच करता है इस तरह जेनेटिकली इनका इंसानों से करीबी रिश्ता है लेकिन जंगलों के काटे जाने से इनकी संख्या कम होती जा रही है",
       hashtags: "#WhiteCheekedGibbon #GibbonLife #WildlifeWonder #MonkeyOrNot #NatureLovers #SoutheastAsiaWildlife #JungleVoices #SingingApes #LoyalAnimals #EndangeredSpecies #SaveTheGibbons #AnimalFacts #CloseToHumans #GeneticCousins #WildlifeConservation",
+    },
+    video6: {
+      title: "इस भालू से शेर भी डरते है 😨",
+      videoId: "tf0VNohY_5c",
+       date: "2025-06-15",
+       script: "दोस्तो ये कोई आम भालू नहीं है. ये है स्लॉथ बियर जंगल का वो फाइटर, जिससे शेर और बाघ तक पंगा लेने से डरते हैं. ये भालू मुख्य रूप से भारत, श्रीलंका, और नेपाल के कुछ हिस्सों में पाया जाता है।इनका स्वभाव बेहद आकरमक होता है, और सबसे खतरनाक बात इनका व्यवहार पूरी तरह से अनप्रेडिक्टेबल होता है। यानि कि ये जानवर कब, किस पर, किस तरह से और किस वजह से हमला कर दे , इसका अंदाज़ा लगाना नामुमकिन है। इसीलिए जंगल के बड़े-बड़े शिकारीयो की इसको देखकर फटती है । यहाँ तक कि इंसान भी इससे बचकर रहना ही बेहतर समझते हैं क्योंकि ये भालू बिना किसी चेतावनी के, सीधे चेहरे पर हमला करता है।ना डरता है, ना पीछे हटता है।",
+       hashtags : "#SlothBear #JungleFighter #DangerousAnimal #UnpredictableBear #Wildlife #IndianWildlife #BearAttack #ForestKing #ShereAurBaghSeZyada #NatureUnleashed #WildAndFearless #JungleKeFighter #DangerousWildlife #BearFacts #IncredibleIndia #AnimalKing #BeastOfTheWild #WildIndia #JungleDanger #FearlessBear",
+    },
+    video7: {
+      title: "हायना की हिम्मत 😅",
+      videoId: "swsQ64ajPdY",
+      date: "2025-06-19",
+      script: "आपने कई बार सुना होगा कि हायना शेर को मार सकता है लेकिन इस बात में कितनी सच्चाई है चलिए मैं बताता हु दरअसल हायना का एक बड़ा ग्रुप भी मिलकर शेर को नहीं मार सकता हायना का ग्रुप शेर को अकेला पाकर उसे सिर्फ तंग ही कर सकता है वो भी इसलिए क्योंकि शेर हायना का खाना छीनकर खा जाते है जबकि शेर का मुकाबला तो सिर्फ टाइगर, हाथी, genda और जिराफ़ जैसे बड़े जानवर ही कर सकते है",
+      hashtags: "#lion #hyena #wild #SherVsHyena #JungleKaSach #LionFacts #HyenaReality #WildlifeTruth #JungleKing #HyenaMythBusted #SherKaMuqabla #RealJungleFights #LionVsTiger #SherKaDarrKisse #WildlifeEducation #JungleKiAsliyat #AnimalFactCheck #ShaktishaaliSher  #viral #trending #facts #animals #shorts",
+    },
+    video8 : {
+      title: "शिकार करने का नया तरीका 😅 ",
+      videoId: "Cy2wyzJQETw",
+      date: "2025-06-20",
+      script: "यह है बाबा टिलू जो दूसरे जानवरों को वश में करके उनका शिकार करता है. दरअसल stored नामक इस जानवर को जब भी कोई खरगोश दिखाई देता है तो यह भागकर तो उसे नहीं पकड़ सकता क्योंकि खरगोश बहुत तेज भागता है. इसीलिए यह खरगोश का ध्यान अपनी ओर खींचने के लिए उसके सामने नाच गाना, back flip, उछल कूद जैसे तमाशे दिखाने लगता है और ये सब देखकर मासूम खरगोश इसमें इतना खो जाता है कि उसे कुछ होश ही नहीं रहता जिसके बाद stroke अपने तमाशे को continue रखकर धीरे धीरे आगे बढ़ता है और खरगोश के पास पहुँचकर उसकी गर्दन दबोच लेता है और हो गया खाने का जुगाड़.",
+      hashtags : "#BabaTillu #SmartHunter #AnimalTrick #JungleDrama #ShikariChaal #FunnyWildlife #NatureTrap #CuteVsClever #JungleKaNatak #RabbitVsPredator #WildlifeDeception #JungleKiChalaki #BackflipSeShikar #NatureKaNatak #WildHuntingTrick  #viral #trending #facts #animals #shorts #wildlife #animals #hunting #casual",
+      },
+    video9 : {
+      title: "अहमदाबाद Plane Crash का सच 😱",
+      videoId: "RHrMCkRGIc0",
+      date: "2025-06-14",
+      script: "क्या आपको पता है की 12 जून को अहमदाबाद में जो एरोप्लेन क्रैश हुआ था उसकी फोटो कुछ इस प्रकार थी ओर सैम फोटो मिड डे न्यूज पेपर के फ्रन्ट पेज मैं  सैम पोजीशन मैं बनी हुई थी ओर उस पर एयर इंडिया बी लिखा हुआ है और यह न्यूज पेपर भी उसी दिन सुबह का था ओर उस से भी सप्राइज बात यह है की एक इंसान है जिनका नाम गोपाल शास्त्री व्यास है इन्होंने 31 may को एक पोस्ट किया था की 7 जून के बाद भारत सहित कई देशों में प्लेन क्रैश होंगे। कई घटनायें होंगी ऐसी किसी देश। भारत, अमेरिका, चीन, फ्रांस, यूके के बड़े और प्रसिद्ध व्यक्ति की मौत भी प्लेन दुर्घटना में या सामान्य रूप से होने के पूर्ण योग। ओर उसी क्रैश मैं बीजेपी के फॉर्मर सीए विजय रुपानी जी की डेथ हो गई ओर एक चीज बताता हु वो जो सीए थे वो अपनी कार और बाइक के नंबर 1206 रखते थे क्योंकि वो उनको लक्की नंबर मानते थे ओर उनकी डेथ भी 12 जून मतलब 12-06 को हुई थी यह सब कोई इनसीडेंट है या कोई प्लेन है आपकी क्या राय कमेन्ट मैं बताए",
+      hashtags : "#PlaneCrashMystery #UnexplainedIncidents #CoincidenceOrMystery #ViralNews #CrashPrediction #MysteriousDeath #UnsolvedMysteries #BizarreCoincidences #VijayRupaniDeath #CrashConnection #FuturePrediction #UnbelievableEvents #ShockingCoincidence #TragicIncident #MysteryUnfolds #UnexpectedTragedy #PredictionComeTrue #ConspiracyTheory #ViralStory #MysteryBehindCrash #LifeAndDeath #UnpredictableLife #ShockingDeath #HiddenTruths #MysteriesOfLife #TrendingNews",
+    },
+    video10 : {
+      title: "COMING SOON",
+      videoId: "",
+      date: "*****",
+      script: "****",
+      hashtags : "****",
     }
-  }
+  },
+
 };
 
 
@@ -457,8 +604,14 @@ Real love, loyalty और respect सिर्फ भेड़िया नि�
       text: 'PLEASE ENTER YOUR CHANNEL NAME AND PASSWORD',
       confirmButtonText: 'OK',
       background: '#1e1e2f',
-      color: '#f0f0f5'
-    });
+      color: '#f0f0f5',
+        customClass: {
+    popup: 'small-popup',
+    title: 'small-title',
+    content: 'small-content'
+  }
+});
+    
     return;
   }
 
@@ -469,8 +622,14 @@ Real love, loyalty और respect सिर्फ भेड़िया नि�
       text: 'PLEASE ENTER RIGHT PASSWORD',
       confirmButtonText: 'OK',
       background: '#1e1e2f',
-      color: '#f0f0f5'
-    });
+      color: '#f0f0f5',
+      customClass: {
+    popup: 'small-popup',
+    title: 'small-title',
+    content: 'small-content'
+  }
+});
+    
     return;
   }
 
@@ -590,26 +749,18 @@ function copyScript() {
 
   navigator.clipboard.writeText(scriptText)
     .then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Script Copied!',
-        text: 'अब आप इसे कहीं भी paste कर सकते हैं।',
-        background: '#1e1e2f',
-        color: '#f0f0f5',
-        confirmButtonText: 'Cool 😎'
-      });
+      // Popup ko remove kiya gaya hai
+      // Console mein message de sakte ho agar debugging ke liye chahe
+      console.log('Script copied successfully!');
     })
     .catch((err) => {
       console.error("Copy failed:", err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Copy Failed!',
-        text: 'Script copy नहीं हो सकी। Console में error देखें।',
-        background: '#1e1e2f',
-        color: '#f0f0f5'
-      });
+      // Optional: Console mein error print kar sakte ho
     });
 }
+
+    
+
 
     function copyHashtags() {
       const hashtags = document.getElementById('video-hashtags').innerText;

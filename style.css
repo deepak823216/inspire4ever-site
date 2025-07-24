@@ -65,7 +65,7 @@
       flex-direction: column;
       align-items: center;
       color: #f0f0f5;
-      background: #0e0e1a url("sss.jpg") no-repeat center center fixed;
+      background: #0e0e1a url("background.jpg") no-repeat center center fixed;
   background-size: cover;
     }
 
@@ -253,7 +253,7 @@ canvas#growth-chart {
   margin: 0;
   padding: 0;
   height: 100;
-  background: url("sss.jpg") no-repeat center center fixed;
+  background: url("background.jpg") no-repeat center center fixed;
   background-size: cover;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
@@ -403,7 +403,10 @@ canvas#growth-chart {
 
 
     /* Responsive */
-    @media(max-width: 480px) {
+    @media (max-height: 500px) {
+  .footer {
+    display: none;
+  }
       .video-title {
         font-size: 22px;
       }

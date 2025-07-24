@@ -2,7 +2,8 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>YouTube Channel Info - Improved</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet" />
@@ -12,14 +13,13 @@
 
   <!-- Login Page -->
   <div class="card" id="welcome-screen">
-    <img src="suny.png" class="circle-logo" />
+    <img src="inspire4ever_logo.jpg" class="circle-logo" />
     <h1>ENTER CHANNEL NAME</h1>
-    <a href="https://www.instagram.com/rajput_sany1?utm_source=ig_web_button_share_sheet&igsh=a2ZoM3gxY3psa3g=" target="_blank">@rajput_sany1</a>
+    <a href="https://www.instagram.com/deepak__823?igsh=MWx6cHB5Mzg4bDlmeA==" target="_blank">@deepak__823</a>
     <input type="text" id="channel-name" placeholder="Enter channel name" />
     <input type="password" id="channel-password" placeholder="Enter password" style="margin-top: 10px;" />
     <button onclick="loadChannel()">Login ➜</button>
   </div>
-
 
   <!-- Main Dashboard -->
   <div id="main-container" style="display: none;">
@@ -30,16 +30,6 @@
       <select id="video-select" onchange="showVideoDetails()"></select>
       
     </div>
-    <div id="add-video-form" style="margin-top: 30px;">
-  <h3>➕ Add New Video</h3>
-  <input type="text" id="new-title" placeholder="Video Title" />
-  <input type="text" id="new-id" placeholder="YouTube Video ID" />
-  <input type="date" id="new-date" />
-  <textarea id="new-script" placeholder="Video Script"></textarea>
-  <textarea id="new-hashtags" placeholder="Hashtags (comma or space separated)"></textarea>
-  <button onclick="addNewVideo()">➕ Add Video</button>
-</div>
-
 
     <div id="loading-spinner" style="display: none;">
       <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." width="60" />
